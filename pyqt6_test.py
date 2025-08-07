@@ -1,5 +1,6 @@
 # pyqt_test/pyqt6_test.py 
 
+import os
 import sys
 from image_filters import applyAndShowFilter
 from PyQt6.QtGui import QPixmap
@@ -57,11 +58,12 @@ def showSelectedFiles(self,selected_files):
     if selected_files:
         pixmap = QPixmap(selected_files[0])
         self.image_label.setPixmap(pixmap)
-        self.resize(pixmap.width(), pixmap.height())
         self._createButtons(selected_files)
 
 def openFileDialog(self):
     dialog = QFileDialog(self)
+    dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+    dialog.setDirectory(os.path.expanduser("~"))
     dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
     dialog.setNameFilter("JPEG Files (*.jpg *.jpeg)")
     if dialog.exec():
